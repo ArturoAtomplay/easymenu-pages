@@ -1,0 +1,22 @@
+{
+  "name": "easymenu-pages",
+  "version": "1.0.0",
+  "description": "module that helps you create pages with menus, buttons and functions easily",
+  "main": "./src/index.js",
+  "files": [
+    "src"
+  ],
+  "scripts": {},
+  "keywords": [
+    "pagination",
+    "menus",
+    "discord menu",
+    "select menu",
+    "buttons"
+  ],
+  "author": "arturoAtomplay (https://github.com/At-Arturo)",
+  "license": "ISC",
+  "devDependencies": {
+    "discord.js": "^13.1.0"
+  }
+}
