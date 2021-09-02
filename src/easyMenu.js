@@ -1,4 +1,4 @@
-const { Message } = require("discord.js");
+const { Message, MessageComponentInteraction } = require("discord.js");
 const { EventEmitter } = require("events");
 
 class Page {
@@ -18,37 +18,37 @@ module.exports = class EasyMenu extends (
   EventEmitter
 ) {
   /**
-   * @param {import("discord.js").TextBasedChannels} channel
-   * @param {string} userID
-   * @param {Object[]} pages
-   * @param {string} pages.name
-   * @param {import('discord.js').MessageOptions} pages.message see [here](https://discord.js.org/#/docs/main/13.1.0/typedef/MessageOptions) for more details
-   * @param {Object.<string, string | function>} [pages.componentsActions]
-   * @param {number} [ms]
+   * @param {Object} param0
+   * @param {import("discord.js").TextBasedChannels} param0.channel channel where the message will be sent
+   * @param {string|string[]} [param0.usersID] if you use a filter this does not work
+   * @param {(interaction: MessageComponentInteraction) => boolean} [param0.filter] The filter applied to this collector
+   * @param {number} [param0.ms] collector time in milliseconds
+   * @param {Object[]} param0.pages pages
+   * @param {string} param0.pages.name Name of the page
+   * @param {import('discord.js').MessageOptions} param0.pages.message see [here](https://discord.js.org/#/docs/main/13.1.0/typedef/MessageOptions) for more details
+   * @param {Object.<string, string | function>} [param0.pages.componentsActions] component actions
    */
-  constructor(channel, userID, pages, ms = 180000) {
+  constructor({ channel, usersID, filter, ms = 180000, pages }) {
     super();
     this.channel = channel;
-    this.userID = userID;
+    this.usersID = typeof usersID === "string" ? [usersID] : usersID;
+
+    /** @private */
+    this.customFilter = filter || null
+
     this.ms = ms;
 
-    /**
-     * @type {Page[]}
-     */
+    /** @type {Page[]} */
     this.pages = [];
 
     pages.forEach(page => {
       this.pages.push(new Page(page.name, page.message, page.componentsActions || {}));
     });
 
-    /**
-     * @type {Page}
-     */
+    /** @type {Page} */
     this.currentPage = this.pages[0];
 
-    /**
-     * @type {number}
-     */
+    /** @type {number} */
     this.pageIndex = 0;
   }
 
@@ -71,9 +71,7 @@ module.exports = class EasyMenu extends (
     });
   }
 
-  /**
-   * stop the collector
-   */
+  /** stop the collector */
   stop() {
     this.menuCollector.stop("STOP");
   }
@@ -107,7 +105,7 @@ module.exports = class EasyMenu extends (
 
   awaitComponents() {
     this.menuCollector = this.msgMenu.createMessageComponentCollector({
-      filter: i => i.user.id === this.userID,
+      filter: this.customFilter ? this.customFilter : i => this.usersID.some(u => u === i.user.id),
       idle: this.ms,
     });
 
