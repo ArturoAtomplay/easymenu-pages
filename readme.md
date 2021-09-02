@@ -21,7 +21,7 @@ here is an example of a simple bot with a menu:
 ```js
 const menu = new EasyMenu({
       channel: message.channel,
-      usersID: [message.author.id, "743362425050497084"],
+      usersID: message.author.id, //it can also be an array 
       pages: [
         {
           name: "main",
