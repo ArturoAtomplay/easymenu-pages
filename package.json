@@ -12,7 +12,11 @@
     "menus",
     "discord menu",
     "select menu",
-    "buttons"
+    "buttons",
+    "discord",
+    "discord-js",
+    "discord-bot",
+    "discordjs"
   ],
   "author": "arturoAtomplay (https://github.com/At-Arturo)",
   "license": "ISC",
