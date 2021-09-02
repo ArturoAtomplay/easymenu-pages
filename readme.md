@@ -78,4 +78,4 @@ client.login("TOKEN");
 
 ```
 
-### if you have anything you want to add you can contribute on github
+### if you have anything you want to add you can contribute on [github](https://github.com/arturoAtomplay/easymenu-pages)
