@@ -97,9 +97,11 @@ module.exports = class EasyMenu extends (
   setPage(pageIndex = 0) {
     return new Promise((resolve, reject) => {
       if (!this.pages[pageIndex]) return;
+      const oldPage = this.currentPage
       this.pageIndex = pageIndex;
       this.currentPage = this.pages[pageIndex];
       this.msgMenu.edit(this.currentPage.message).then(resolve).catch(reject);
+      this.emit('pageChange', oldPage, this.currentPage);
     });
   }
 
